@@ -7,13 +7,16 @@ const api = axios.create({
   baseURL: $apiUrl,
 });
 
-const client = ($route, $params) => (
-  api.get($route, {
-    params: $params,
+const client = (route, params) => (
+  api.get(route, {
+    params: params.params,
     auth: {
       username: token
     }
-  }).then(res => res.data)
+  }).then((res) => {
+    let data = res.data;
+    params.dispatch({type: params.type, data: data})
+  })
 );
 
 export default client;

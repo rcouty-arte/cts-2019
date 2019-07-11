@@ -1,9 +1,18 @@
 const stopSearchReducer = (state, action) => {
-  let data = [];
-
   switch (action.type) {
-    case "doSomething":
-      return data;
+    case 'loadLines':
+      let lines = action.data.LinesDelivery.AnnotatedLineRef.map((line) => {
+        return {
+          LineRef: line.LineRef,
+          LineName: line.LineName,
+          RouteType: line.Extension.RouteType
+        }
+      });
+
+      return {
+        ...state,
+        lines: lines
+      };
     default:
       throw new Error();
   }

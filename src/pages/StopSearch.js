@@ -1,20 +1,25 @@
-import React from 'react';
-//import linesDiscovery from '../services/linesDiscovery';
-import { StopSearchProvider } from '../providers/stopSearchProvider';
-
-const initialState = {
-  data: []
-};
+import React, { useContext, useEffect } from 'react';
+import { StopSearchContext } from '../providers/stopSearchProvider';
+import linesDiscovery from '../services/linesDiscovery';
 
 const StopSearch = () => {
   //let lines = linesDiscovery();
+  const { state: { lines }, dispatch } = useContext(StopSearchContext);
+
+  useEffect(() => {
+    linesDiscovery({
+      dispatch: dispatch,
+      type: 'loadLines',
+      params: {}
+    });
+  }, []);
+
+  console.log(lines);
 
   return (
-    <StopSearchProvider initialState={initialState}>
-      <div>
-        stop search
-      </div>
-    </StopSearchProvider>
+    <div>
+      stop search
+    </div>
   );
 }
 
