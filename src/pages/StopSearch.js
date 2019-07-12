@@ -1,30 +1,45 @@
 import React, { useContext, useEffect } from 'react';
 import { StopSearchContext, StopSearchProvider } from '../providers/stopSearchProvider';
 import linesDiscovery from '../services/linesDiscovery';
+import estimatedTimetable from '../services/estimatedTimetable';
+
+import VehicleModeFilter from './StopSearch/VehicleModeFilter';
+import LineSelection from './StopSearch/LineSelection';
 
 const StopSearchPage = () => {
-  const { state: { lines }, dispatch } = useContext(StopSearchContext);
+  const { dispatch } = useContext(StopSearchContext);
 
   useEffect(() => {
     linesDiscovery({
       dispatch: dispatch,
-      type: 'loadLines',
+      type: 'setLines',
       params: {}
     });
-  }, []);
 
-  console.log(lines);
+    estimatedTimetable({
+      dispatch: dispatch,
+      type: 'setStops',
+      params: {}
+    });
+  }, [dispatch]);
 
   return (
     <div>
-      stop search
+      <VehicleModeFilter />
+      <LineSelection />
     </div>
   );
 }
 
 const StopSearch = () => {
   const StopSearchInitialState = {
-    lines: []
+    lines: [],
+    stops: [],
+    VehicleMode: {
+      bus: true,
+      tram: true
+    },
+    line: null
   };
 
   return (
