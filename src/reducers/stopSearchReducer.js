@@ -82,6 +82,39 @@ const stopSearchReducer = (state, action) => {
         stop: action.data.stop
       }
 
+    // Action : DateSelection
+    case 'DateSelection':
+      return {
+        ...state,
+        date: action.data.date
+      }
+
+    // Action : Search
+    case 'Search':
+      let results = [];
+
+      action.data.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit.map((visit) => {
+        let journey = visit.MonitoredVehicleJourney;
+        let call = journey.MonitoredCall;
+
+        results.push({
+          DestinationName: journey.DestinationName,
+          LineRef: journey.LineRef,
+          VehicleMode: journey.VehicleMode,
+          IsRealTime: call.Extension.IsRealTime,
+          StopPointName: call.StopPointName,
+          ExpectedArrivalTime: call.ExpectedArrivalTime,
+          ExpectedDepartureTime: call.ExpectedDepartureTime
+        });
+
+        return false;
+      });
+
+      return {
+        ...state,
+        results: results
+      }
+
     // Action : default
     default:
       throw new Error();

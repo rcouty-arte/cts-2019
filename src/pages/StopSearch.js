@@ -6,6 +6,9 @@ import estimatedTimetable from '../services/estimatedTimetable';
 import VehicleModeFilter from './StopSearch/VehicleModeFilter';
 import LineSelection from './StopSearch/LineSelection';
 import StopSelection from './StopSearch/StopSelection';
+import DateSelection from './StopSearch/DateSelection';
+import SearchButton from './StopSearch/SearchButton';
+import Results from './StopSearch/Results';
 
 const StopSearchPage = () => {
   const { dispatch } = useContext(StopSearchContext);
@@ -29,6 +32,9 @@ const StopSearchPage = () => {
       <VehicleModeFilter />
       <LineSelection />
       <StopSelection />
+      <DateSelection />
+      <SearchButton />
+      <Results />
     </div>
   );
 }
@@ -42,7 +48,10 @@ const StopSearch = () => {
       tram: true
     },
     line: null,
-    stop: null
+    stop: null,
+    date: new Date(),
+    results: [],
+    maxStopArrivals: 5
   };
 
   return (
