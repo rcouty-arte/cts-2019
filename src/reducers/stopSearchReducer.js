@@ -17,7 +17,8 @@ const stopSearchReducer = (state, action) => {
 
     // Action : setStops
     case 'setStops':
-      let stops = {};
+      let stops = [];
+      let stopsIds = {};
 
       action.data.ServiceDelivery.EstimatedTimetableDelivery.map((Etd) => {
         Etd.EstimatedJourneyVersionFrame.map((Ejvf) => {
@@ -27,14 +28,20 @@ const stopSearchReducer = (state, action) => {
             let VehicleMode   = Evj.Extension.VehicleMode;
 
             Evj.EstimatedCalls.map((Ec) => {
-              stops[Ec.StopPointRef] = {
+              if (stopsIds[Ec.StopPointRef]) {
+                return false;
+              }
+
+              stops.push({
                 LineRef: LineRef,
                 DirectionRef: DirectionRef,
                 StopPointRef: Ec.StopPointRef,
                 StopPointName: Ec.StopPointName,
                 DestinationName: Ec.DestinationName,
                 VehicleMode: VehicleMode
-              };
+              });
+
+              stopsIds[Ec.StopPointRef] = true;
 
               return false;
             });
@@ -66,6 +73,13 @@ const stopSearchReducer = (state, action) => {
       return {
         ...state,
         line: action.data.line
+      }
+
+    // Action : StopSelection
+    case 'StopSelection':
+      return {
+        ...state,
+        stop: action.data.stop
       }
 
     // Action : default

@@ -5,6 +5,7 @@ import estimatedTimetable from '../services/estimatedTimetable';
 
 import VehicleModeFilter from './StopSearch/VehicleModeFilter';
 import LineSelection from './StopSearch/LineSelection';
+import StopSelection from './StopSearch/StopSelection';
 
 const StopSearchPage = () => {
   const { dispatch } = useContext(StopSearchContext);
@@ -27,6 +28,7 @@ const StopSearchPage = () => {
     <div>
       <VehicleModeFilter />
       <LineSelection />
+      <StopSelection />
     </div>
   );
 }
@@ -39,7 +41,8 @@ const StopSearch = () => {
       bus: true,
       tram: true
     },
-    line: null
+    line: null,
+    stop: null
   };
 
   return (

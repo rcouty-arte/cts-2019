@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { StopSearchContext } from '../../providers/stopSearchProvider';
 import Select from 'react-select';
+import { FormLabel } from '@material-ui/core';
 
 const LineSelection = () => {
   const { state: { lines, line, VehicleMode }, dispatch } = useContext(StopSearchContext);
@@ -25,6 +26,7 @@ const LineSelection = () => {
 
   return (
     <div>
+      <FormLabel component="legend">Ligne</FormLabel>
       <Select
         value={value}
         onChange={handleChange}
