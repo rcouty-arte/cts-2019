@@ -1,12 +1,42 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StopSearchContext } from '../../providers/stopSearchProvider';
 import MUIDataTable from "mui-datatables";
+import TableFooter from "@material-ui/core/TableFooter";
+import moment from 'moment';
 
 const DateSelection = () => {
   const { state: { results } } = useContext(StopSearchContext);
 
-  const options = {
+  /*const arrivalUpdate = () => {
+    console.log('coucou');
+  }
 
+  useEffect(() => {
+    let intervalId = setInterval(arrivalUpdate, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+      console.log('will unmount');
+    }
+  }, []);*/
+
+  const options = {
+    filter: false,
+    search: false,
+    print: false,
+    download: false,
+    viewColumns: false,
+    selectableRows: false,
+    rowsPerPage: 100,
+    customFooter: (
+      count,
+      page,
+      rowsPerPage,
+      changeRowsPerPage,
+      changePage
+    ) => {
+      return <TableFooter></TableFooter>;
+    }
   };
 
   const columns = [
@@ -25,9 +55,9 @@ const DateSelection = () => {
       result.StopPointName,
       result.DestinationName,
       result.IsRealTime === true ? "Oui" : "Non",
-      result.ExpectedArrivalTime,
-      result.ExpectedDepartureTime,
-      ''
+      moment(result.ExpectedArrivalTime).format('DD/MM/YYYY HH:mm:ss'),
+      moment(result.ExpectedDepartureTime).format('DD/MM/YYYY HH:mm:ss'),
+      moment.utc(moment(result.ExpectedArrivalTime).diff(moment())).format("HH:mm:ss")
     ];
 
     return element;
