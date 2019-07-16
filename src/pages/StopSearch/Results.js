@@ -1,24 +1,13 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { StopSearchContext } from '../../providers/stopSearchProvider';
 import MUIDataTable from "mui-datatables";
 import TableFooter from "@material-ui/core/TableFooter";
 import moment from 'moment';
 
+import Timer from "./Timer";
+
 const DateSelection = () => {
   const { state: { results } } = useContext(StopSearchContext);
-
-  /*const arrivalUpdate = () => {
-    console.log('coucou');
-  }
-
-  useEffect(() => {
-    let intervalId = setInterval(arrivalUpdate, 1000);
-
-    return () => {
-      clearInterval(intervalId);
-      console.log('will unmount');
-    }
-  }, []);*/
 
   const options = {
     filter: false,
@@ -46,7 +35,7 @@ const DateSelection = () => {
     "Temps réel",
     "Arrivée",
     "Départ",
-    "Arrivée dans"
+    "Estimation"
   ];
 
   const data = results.map((result) => {
@@ -57,7 +46,8 @@ const DateSelection = () => {
       result.IsRealTime === true ? "Oui" : "Non",
       moment(result.ExpectedArrivalTime).format('DD/MM/YYYY HH:mm:ss'),
       moment(result.ExpectedDepartureTime).format('DD/MM/YYYY HH:mm:ss'),
-      moment.utc(moment(result.ExpectedArrivalTime).diff(moment())).format("HH:mm:ss")
+      <Timer date={result.ExpectedArrivalTime} />
+      //moment.utc(moment(result.ExpectedArrivalTime).diff(moment())).format("HH:mm:ss")
     ];
 
     return element;
