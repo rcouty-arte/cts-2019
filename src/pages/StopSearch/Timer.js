@@ -19,6 +19,10 @@ class Timer extends Component {
     });
   }
 
+  componentDidUpdate() {
+    this.date = moment(this.props.date);
+  }
+
   componentDidMount() {
     this.intervalId = setInterval(this.dateUpdate, 1000);
   }
