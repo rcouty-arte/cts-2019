@@ -16,7 +16,7 @@ const mapStateToProps = ( { stop, date, line, maxStopArrivals } ) => ( {
 }); 
 
 const mapDispatchToProps = (dispatch) => ({
-    onSubmit: (...params) => stopMonitoring(...params)(dispatch),
+    onSubmit: (...params) => (stopMonitoring)(...params)(dispatch),
 });
 
 export default connect(mapStateToProps,mapDispatchToProps,null,{context: StopSearchContext})(SearchButton);
