@@ -1,11 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StopSearchContext } from '../../providers/stopSearchProvider';
 import Select from 'react-select';
 import { FormLabel } from '@material-ui/core';
+import connect from '../connect/lineSelection';
 
-const LineSelection = () => {
-  const { state: { lines, line, VehicleMode }, dispatch } = useContext(StopSearchContext);
-
+const LineSelection = ({ lines, line, VehicleMode, lineSelection }) => {
   const options = lines.filter((line) => {
     if (VehicleMode[line.RouteType]) {
       return true;
@@ -21,7 +20,7 @@ const LineSelection = () => {
   });
 
   const handleChange = selected => {
-    dispatch({type: 'LineSelection', data: {line: selected.value}});
+    lineSelection(selected.value);
   };
 
   return (
@@ -36,4 +35,4 @@ const LineSelection = () => {
   );
 }
 
-export default LineSelection;
+export default connect({context: StopSearchContext})(LineSelection);

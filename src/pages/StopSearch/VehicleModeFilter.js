@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StopSearchContext } from '../../providers/stopSearchProvider';
 import { FormControlLabel, FormLabel, Checkbox } from '@material-ui/core';
+import connect from '../connect/vehicleModeFilter'
 
-const VehicleModeFilter = () => {
-  const { state: { VehicleMode }, dispatch } = useContext(StopSearchContext);
-
+const VehicleModeFilter = ({ VehicleMode, vehicleModeFilter }) => {
   const handleChange = mode => event => {
-    dispatch({type: 'VehicleModeFilter', data: {mode: mode, checked: event.target.checked}});
+    vehicleModeFilter(mode, event.target.checked)
   };
 
   return (
@@ -39,4 +38,4 @@ const VehicleModeFilter = () => {
   );
 }
 
-export default VehicleModeFilter;
+export default connect({context: StopSearchContext})(VehicleModeFilter);

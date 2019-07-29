@@ -1,13 +1,15 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext } from "react";
+import { Provider } from 'react-redux';
 import { stopSearchReducer } from "../reducers/stopSearchReducer";
+import { createStore } from "redux";
 
 const StopSearchContext = createContext({});
+const store = createStore(stopSearchReducer);
 
 const StopSearchProvider = ({ children, initialState }) => {
-  const [state, dispatch] = useReducer(stopSearchReducer, initialState);
-  const context = { state, dispatch };
+  
   return (
-    <StopSearchContext.Provider value={context}>{children}</StopSearchContext.Provider>
+    <Provider store={store} context={StopSearchContext}>{children}</Provider>
   );
 };
 

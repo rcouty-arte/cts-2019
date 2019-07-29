@@ -1,4 +1,17 @@
-const stopSearchReducer = (state, action) => {
+const initialState = {
+  lines: [],
+  stops: [],
+  VehicleMode: {
+    bus: true,
+    tram: true
+  },
+  line: null,
+  stop: null,
+  date: new Date(),
+  results: [],
+  maxStopArrivals: 5
+};
+const stopSearchReducer = (state = initialState, action) => {
   switch (action.type) {
     // Action : setLines
     case 'setLines':
@@ -70,6 +83,7 @@ const stopSearchReducer = (state, action) => {
 
     // Action : LineSelection
     case 'LineSelection':
+      console.log(action);
       return {
         ...state,
         line: action.data.line
@@ -117,7 +131,7 @@ const stopSearchReducer = (state, action) => {
 
     // Action : default
     default:
-      throw new Error();
+      return state;
   }
 };
 

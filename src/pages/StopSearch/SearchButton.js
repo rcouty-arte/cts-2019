@@ -1,27 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StopSearchContext } from '../../providers/stopSearchProvider';
+import connect from '../connect/stopMonitoring';
 import Button from '@material-ui/core/Button';
 
-import stopMonitoring from '../../services/stopMonitoring';
-
-const DateSelection = () => {
-  const { state: { stop, date, line, maxStopArrivals }, dispatch } = useContext(StopSearchContext);
-
+const SearchButton = ({ value, onSubmit,  visible }) => {
   const handleChange = () => {
-    stopMonitoring({
-      dispatch: dispatch,
-      type: 'Search',
-      params: {
-        MonitoringRef: stop,
-        LineRef: line,
-        StartTime: date,
-        MaximumStopVisits: maxStopArrivals
-      }
-    });
-
+    onSubmit(value)
   };
 
-  if (stop === null) {
+
+  if (!visible) {
     return <div></div>;
   }
 
@@ -34,4 +22,4 @@ const DateSelection = () => {
   );
 }
 
-export default DateSelection;
+export default SearchButton;

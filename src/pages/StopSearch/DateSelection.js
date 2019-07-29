@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StopSearchContext } from '../../providers/stopSearchProvider';
 import { FormLabel } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
@@ -7,12 +7,11 @@ import {
   MuiPickersUtilsProvider,
   TimePicker
 } from '@material-ui/pickers';
+import connect from '../connect/dateselection';
 
-const DateSelection = () => {
-  const { state: { date, stop }, dispatch } = useContext(StopSearchContext);
-
+const DateSelection = ({ date, stop, dateSelection }) => {
   const handleChange = date => {
-    dispatch({type: 'DateSelection', data: {date: date}});
+    dateSelection(date);
   };
 
   if (stop === null) {
@@ -36,4 +35,4 @@ const DateSelection = () => {
   );
 }
 
-export default DateSelection;
+export default connect({context: StopSearchContext})(DateSelection);

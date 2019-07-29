@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StopSearchContext } from '../../providers/stopSearchProvider';
 import MUIDataTable from "mui-datatables";
 import TableFooter from "@material-ui/core/TableFooter";
@@ -6,9 +6,9 @@ import moment from 'moment';
 
 import Timer from "./Timer";
 
-const DateSelection = () => {
-  const { state: { results } } = useContext(StopSearchContext);
+import connect from '../connect/results';
 
+const Results = ({ results }) => {
   const options = {
     filter: false,
     search: false,
@@ -69,4 +69,4 @@ const DateSelection = () => {
   );
 }
 
-export default DateSelection;
+export default connect({context: StopSearchContext})(Results);

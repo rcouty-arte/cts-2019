@@ -1,31 +1,25 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { StopSearchContext, StopSearchProvider } from '../providers/stopSearchProvider';
-import linesDiscovery from '../services/linesDiscovery';
-import estimatedTimetable from '../services/estimatedTimetable';
 
 import VehicleModeFilter from './StopSearch/VehicleModeFilter';
 import LineSelection from './StopSearch/LineSelection';
 import StopSelection from './StopSearch/StopSelection';
-import DateSelection from './StopSearch/DateSelection';
+import DateSelection from './connect/stopMonitoring';
 import SearchButton from './StopSearch/SearchButton';
 import Results from './StopSearch/Results';
+import  connect from './connect/stopSearch';
 
-const StopSearchPage = () => {
-  const { dispatch } = useContext(StopSearchContext);
+let StopSearchPage = ({ linesDiscovery, estimatedTimetable }) => {
 
   useEffect(() => {
     linesDiscovery({
-      dispatch: dispatch,
-      type: 'setLines',
       params: {}
     });
 
     estimatedTimetable({
-      dispatch: dispatch,
-      type: 'setStops',
       params: {}
     });
-  }, [dispatch]);
+  }, [ linesDiscovery, estimatedTimetable ]);
 
   return (
     <div>
@@ -38,27 +32,14 @@ const StopSearchPage = () => {
     </div>
   );
 }
-
+let StopSearchPageConnected = connect({context: StopSearchContext})(StopSearchPage);
 const StopSearch = () => {
-  const StopSearchInitialState = {
-    lines: [],
-    stops: [],
-    VehicleMode: {
-      bus: true,
-      tram: true
-    },
-    line: null,
-    stop: null,
-    date: new Date(),
-    results: [],
-    maxStopArrivals: 5
-  };
 
   return (
-    <StopSearchProvider initialState={StopSearchInitialState}>
-      <StopSearchPage />
+    <StopSearchProvider>
+      <StopSearchPageConnected />
     </StopSearchProvider>
   );
 }
 
-export default StopSearch;
+export default StopSearch

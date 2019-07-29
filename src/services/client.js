@@ -6,7 +6,17 @@ var $apiUrl   = 'https://api.cts-strasbourg.eu/v1/siri/2.0/';
 const api = axios.create({
   baseURL: $apiUrl,
 });
-
+const client = (route, params) => {
+  return api.get(route, {
+    params: params.params,
+    auth: {
+      username: token
+    }
+  }).then((res) => {
+    return res.data;
+  })
+};
+/*
 const client = (route, params) => (
   api.get(route, {
     params: params.params,
@@ -18,5 +28,6 @@ const client = (route, params) => (
     params.dispatch({type: params.type, data: data})
   })
 );
+*/
 
 export default client;

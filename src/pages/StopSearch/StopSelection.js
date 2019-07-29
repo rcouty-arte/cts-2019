@@ -1,11 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StopSearchContext } from '../../providers/stopSearchProvider';
 import Select from 'react-select';
 import { FormLabel } from '@material-ui/core';
+import connect from '../connect/stopSelection';
 
-const StopSelection = () => {
-  const { state: { stops, stop, line }, dispatch } = useContext(StopSearchContext);
-
+const StopSelection = ({ stops, stop, line, stopSelection }) => {
   const options = stops.filter((stop) => {
     if (stop.LineRef === line) {
       return true;
@@ -15,13 +14,13 @@ const StopSelection = () => {
     value: stop.StopPointRef,
     label: stop.VehicleMode+' '+stop.LineRef+' - '+stop.StopPointName+ ' => '+stop.DestinationName
   }));
-
+  console.log(line);
   const value = options.find(element => {
     return element.value === stop;
   });
 
   const handleChange = selected => {
-    dispatch({type: 'StopSelection', data: {stop: selected.value}});
+    stopSelection(selected.value);
   };
 
   let select = '';
@@ -44,4 +43,4 @@ const StopSelection = () => {
   );
 }
 
-export default StopSelection;
+export default connect({context: StopSearchContext})(StopSelection);
